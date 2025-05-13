@@ -1,5 +1,5 @@
 #HSP analysis - Part 4 - merged dataset and table 1
-#written by Sarah Darnell, began 3.3.25, last edited 4.14.25
+#written by Sarah Darnell, began 3.3.25, last edited 5.13.25
 
 library(readr)
 library(tableone)
@@ -8,7 +8,7 @@ library(dplyr)
 library(flextable)
 library(officer)
 
-setwd("C:/Users/Eli S/Documents/Sarah work stuff/HSP")
+setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import cleaned datasets
 eh16 <- read_csv("EH16-263_HSP_cleaned.csv")
@@ -115,33 +115,6 @@ hsp <- hsp %>%
     mh17_bcps___1 == 0 ~ "No"
   ))
 
-#Adding new column for medical diagnoses as a cat var
-#Including all conditions so %s are correct, but will only include 5 in table
-hsp <- hsp %>%
-  mutate('Medical Condition Diagnoses' = case_when(
-    have_you_ever_been_diagnos___1 == 1 ~ "Painful Bladder Syndrome or Interstitial Cystitis", 
-    have_you_ever_been_diagnos___2 == 1 ~ "Chronic Pelvic Pain", 
-    have_you_ever_been_diagnos___3 == 1 ~ "Fibroids", #not in table
-    have_you_ever_been_diagnos___4 == 1 ~ "Endometriosis", #not in table
-    have_you_ever_been_diagnos___5 == 1 ~ "Ovarian Cysts", #not in table
-    have_you_ever_been_diagnos___6 == 1 ~ "Pelvic Inflammatory Disease",#This doesn't show up in the table because no one has PID
-    have_you_ever_been_diagnos___7 == 1 ~ "Dysmenorrhea", #not in table
-    have_you_ever_been_diagnos___8 == 1 ~ "Kidney Stones", #not in table
-    have_you_ever_been_diagnos___9 == 1 ~ "Inflammatory Bowel Disease", 
-    have_you_ever_been_diagnos___10 == 1 ~ "Irritable Bowel Disease", #not in table
-    have_you_ever_been_diagnos___11 == 1 ~ "Chronic Constipation", #not in table
-    have_you_ever_been_diagnos___12 == 1 ~ "Chronic Diarrhea", #not in table
-    have_you_ever_been_diagnos___13 == 1 ~ "Migraine Headaches",
-    have_you_ever_been_diagnos___14 == 1 ~ "Hypertension", #not in table
-    have_you_ever_been_diagnos___15 == 1 ~ "Arthritis", #not in table
-    have_you_ever_been_diagnos___16 == 1 ~ "Lower Back Pain", #not in table
-    have_you_ever_been_diagnos___17 == 1 ~ "Cancer", #not in table
-    have_you_ever_been_diagnos___18 == 1 ~ "Diabetes", 
-    have_you_ever_been_diagnos___19 == 1 ~ "Fibromyalgia", #not in table
-    have_you_ever_been_diagnos___0 == 1 ~ "None" #not in table
-  ))
-
-
 #renaming variables for ease of reading in the table
 hsp <- hsp %>%
   rename(Age = "mh2_age") %>%
@@ -156,10 +129,30 @@ hsp <- hsp %>%
   rename('Number of pregnancies' = "mh13_ofpregs") %>%
   rename('Number of deliveries' = "mh14_deliveries") %>%
   rename('Number of vaginal births' = "mh15_vagbirths") %>%
-  rename(BMI = "bmi")
+  rename(BMI = "bmi") %>%
+  rename('Painful Bladder Syndrome or Interstitial Cystitis' = "have_you_ever_been_diagnos___1") %>%
+  rename('Chronic Pelvic Pain' = "have_you_ever_been_diagnos___2") %>%
+  rename(Fibroids = "have_you_ever_been_diagnos___3") %>%
+  rename(Endometriosis = "have_you_ever_been_diagnos___4") %>%
+  rename('Ovarian Cysts' = "have_you_ever_been_diagnos___5") %>%
+  rename('Pelvic Inflammatory Disease' = "have_you_ever_been_diagnos___6") %>%
+  rename(Dysmenorrhea = "have_you_ever_been_diagnos___7") %>%
+  rename('Kidney Stones' = "have_you_ever_been_diagnos___8") %>%
+  rename('Inflammatory Bowel Disease' = "have_you_ever_been_diagnos___9") %>%
+  rename('Irritable Bowel Disease' = "have_you_ever_been_diagnos___10") %>%
+  rename('Chronic Constipation' = "have_you_ever_been_diagnos___11") %>%
+  rename('Chronic Diarrhea' = "have_you_ever_been_diagnos___12") %>%
+  rename('Migraine Headaches' = "have_you_ever_been_diagnos___13") %>%
+  rename(Hypertension = "have_you_ever_been_diagnos___14") %>%
+  rename(Arthritis = "have_you_ever_been_diagnos___15") %>%
+  rename('Lower Back Pain' = "have_you_ever_been_diagnos___16") %>%
+  rename(Cancer = "have_you_ever_been_diagnos___17") %>%
+  rename(Diabetes = "have_you_ever_been_diagnos___18") %>%
+  rename(Fibromyalgia = "have_you_ever_been_diagnos___19") %>%
+  rename(None = "have_you_ever_been_diagnos___0") 
 
 #saving file
-write_csv(hsp, "C:/Users/Eli S/Documents/Sarah work stuff/HSP/hsp_final.csv")
+write_csv(hsp, "C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP/hsp_final.csv")
 
 #Creating demographics table, using tableone()
 vars <- c("Race", "Age", "Ethnicity", "Education", "Unemployment", 
@@ -170,15 +163,25 @@ vars <- c("Race", "Age", "Ethnicity", "Education", "Unemployment",
           "Average length of menstrual cycle", "Average length of menstrual period", 
           "Menstrual Cycle Regularity", "Current usage of birth control pills", 
           "Past usage of birth control pills", "Number of pregnancies", 
-          "Number of deliveries", "Number of vaginal births", "Medical Condition Diagnoses", 
-          "BMI")
+          "Number of deliveries", "Number of vaginal births", "BMI",
+          "Painful Bladder Syndrome or Interstitial Cystitis", "Chronic Pelvic Pain", 
+          "Fibroids", "Endometriosis", "Ovarian Cysts", "Pelvic Inflammatory Disease", 
+          "Dysmenorrhea", "Kidney Stones", "Inflammatory Bowel Disease", 
+          "Irritable Bowel Disease", "Chronic Constipation", "Chronic Diarrhea", 
+          "Migraine Headaches", "Hypertension", "Arthritis", "Lower Back Pain", 
+          "Cancer", "Diabetes", "Fibromyalgia")
 factors <- c("Race", "Ethnicity", "Education", "Unemployment", 
              "Do you smoke cigarettes?", "Do you drink alcohol?", 
              "Current usage of birth control pills", "Past usage of birth control pills", 
-             "Medical Condition Diagnoses")
+             "Painful Bladder Syndrome or Interstitial Cystitis", "Chronic Pelvic Pain", 
+             "Fibroids", "Endometriosis", "Ovarian Cysts", "Pelvic Inflammatory Disease", 
+             "Dysmenorrhea", "Kidney Stones", "Inflammatory Bowel Disease", 
+             "Irritable Bowel Disease", "Chronic Constipation", "Chronic Diarrhea", 
+             "Migraine Headaches", "Hypertension", "Arthritis", "Lower Back Pain", 
+             "Cancer", "Diabetes", "Fibromyalgia")
 
-demo <- CreateTableOne(vars, data = hsp, factorVars = factors, strata = "group") 
-#change strata argument to "study" to get table by study instead
+demo <- CreateTableOne(vars, data = hsp, factorVars = factors, strata = "study") 
+#change strata argument to "study" or "group" based on what is needed
 
 print(demo, nonnormal = c("Age", "BMI", 
                           "Average menstrual pain (last 90 days without pain relievers)", 
@@ -245,7 +248,7 @@ ft <- flextable(demo_df) %>%
 
 read_docx() %>%
   body_add_flextable(ft) %>%
-  print(target = "final_demo_table_group.docx")
+  print(target = "final_demo_table_study.docx")
 
 
   
