@@ -1,5 +1,5 @@
 #HSP analysis - Part 5 - table 2
-#written by Sarah Darnell, began 4.8.25, last edited 4.14.25
+#written by Sarah Darnell, began 4.8.25, last edited 8.5.25
 
 #load necessary packages
 library(dplyr)
@@ -8,10 +8,10 @@ library(officer)
 library(flextable)
 library(readr)
 
-setwd("C:/Users/Eli S/Documents/Sarah work stuff/HSP")
+setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import final merged dataset
-hsp <- read_csv("hsp_final.csv")
+hsp <- read_csv("Edited files/hsp_final.csv")
 
 #renaming continuous variables
 hsp <- hsp %>%
@@ -31,7 +31,7 @@ median_vars <- c("Depression", "Anxiety", "Number of Body Pain Sites (0-19)",
 #Creating table of continuous variables, with median [IQR]
 table_median <- hsp %>%
   select(all_of(median_vars)) %>%
-  summarize(across(everything(), ~ sprintf("%.1f [%.1f-%.1f]", 
+  dplyr::summarize(across(everything(), ~ sprintf("%.1f [%.1f-%.1f]", 
                                            median(., na.rm = TRUE), 
                                            quantile(., 0.25, na.rm = TRUE),
                                            quantile(., 0.75, na.rm = TRUE)))) %>%
@@ -84,16 +84,19 @@ hsp <- hsp %>%
   rename('PBS/IC' = 20) %>%
   rename('Chronic Pelvic Pain' = 21) %>%
   rename(IBD = 28) %>%
-  rename(Diabetes = 37)
+  rename(Diabetes = 37) %>%
+  rename(`Current use of birth control pills` = 43) %>%
+  rename(`Past use of birth control pills` = 44)
 
 #Defining yes/no variables
 yes_vars <- c("Migraines", "PBS/IC", "Chronic Pelvic Pain", 
-              "IBD", "Diabetes")
+              "IBD", "Diabetes", "Current use of birth control pills", 
+              "Past use of birth control pills")
 
 #Creating table of yes/no variables, with %yes
 table_yes <- hsp %>%
   select(all_of(yes_vars)) %>%
-  summarize(across(everything(), ~ {
+  dplyr::summarize(across(everything(), ~ {
     count_yes <- sum(., na.rm = TRUE)  
     total <- length(na.omit(.))  
     percent_yes <- (count_yes / total) * 100  # Percentage of "Yes"
@@ -161,6 +164,6 @@ doc <- doc %>%
   body_add_flextable(ft_table)
 
 # Save the Word document
-print(doc, target = "table_2_output.docx")
+print(doc, target = "Tables/table2.docx")
 
   

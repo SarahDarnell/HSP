@@ -1,14 +1,14 @@
 #HSP analysis - Part 2 - EH19-040
-#written by Sarah Darnell, began 2.28.25, last edited 4.3.25
+#written by Sarah Darnell, began 2.28.25, last edited 8.5.25
 
 library(readr)
 library(dplyr)
 library(tidyr)
 
-setwd("C:/Users/Eli S/Documents/Sarah work stuff/HSP")
+setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import HSP variables from redcap, remove redcap event names
-eh19 <- read_csv("EH19-040_HSP_redcap_NEW.csv", 
+eh19 <- read_csv("Raw files/EH19-040_HSP_redcap_NEW.csv", 
                  col_types = cols(redcap_event_name = col_skip(), 
                                   redcap_repeat_instrument = col_skip(), 
                                   redcap_repeat_instance = col_skip()))
@@ -164,4 +164,4 @@ eh19_hsp_new <- eh19_hsp_new %>%
 eh19_hsp_clean <- as_tibble(eh19_hsp_new)
 
 #saving file
-write_csv(eh19_hsp_clean, "C:/Users/Eli S/Documents/Sarah work stuff/HSP/EH19-040_HSP_cleaned.csv")
+write_csv(eh19_hsp_clean, "Edited files/EH19-040_HSP_cleaned.csv")

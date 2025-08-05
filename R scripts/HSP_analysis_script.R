@@ -1,5 +1,5 @@
 #HSP analysis - Part 4 - merged dataset and table 1
-#written by Sarah Darnell, began 3.3.25, last edited 5.13.25
+#written by Sarah Darnell, began 3.3.25, last edited 8.5.25
 
 library(readr)
 library(tableone)
@@ -11,12 +11,12 @@ library(officer)
 setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import cleaned datasets
-eh16 <- read_csv("EH16-263_HSP_cleaned.csv")
-eh18 <- read_csv("EH18-128_HSP_cleaned.csv")
-eh19 <- read_csv("EH19-040_HSP_cleaned.csv")
+eh16 <- read_csv("Edited files/EH16-263_HSP_cleaned.csv")
+eh18 <- read_csv("Edited files/EH18-128_HSP_cleaned.csv")
+eh19 <- read_csv("Edited files/EH19-040_HSP_cleaned.csv")
 
 #import chandru values and groups
-chandru <- read_csv("hsp_chandru_values.csv")
+chandru <- read_csv("Raw files/hsp_chandru_values.csv")
 
 #merge datasets
 hsp <- merge(eh16, eh18, all = TRUE)
@@ -152,7 +152,7 @@ hsp <- hsp %>%
   rename(None = "have_you_ever_been_diagnos___0") 
 
 #saving file
-write_csv(hsp, "C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP/hsp_final.csv")
+write_csv(hsp, "Edited files/hsp_final.csv")
 
 #Creating demographics table, using tableone()
 vars <- c("Race", "Age", "Ethnicity", "Education", "Unemployment", 
@@ -185,13 +185,16 @@ demo <- CreateTableOne(vars, data = hsp, factorVars = factors, strata = "study")
 
 print(demo, nonnormal = c("Age", "BMI", 
                           "Average menstrual pain (last 90 days without pain relievers)", 
-                          "Average menstrual pain (last 90 days with use of NSAIDs)"), showAllLevels = TRUE)
+                          "Average menstrual pain (last 90 days with use of NSAIDs)", 
+                          "Days of missed work/school/activities due to menstrual pain (last 90 days)")
+      , showAllLevels = TRUE)
 
 #to save file for exporting
 demo_df <- as.data.frame(print(demo, 
                  nonnormal = c("Age", "BMI", 
                                "Average menstrual pain (last 90 days without pain relievers)", 
-                               "Average menstrual pain (last 90 days with use of NSAIDs)"),
+                               "Average menstrual pain (last 90 days with use of NSAIDs)", 
+                               "Days of missed work/school/activities due to menstrual pain (last 90 days)"),
                  printToggle = FALSE,
                  quote = FALSE,
                  noSpaces = TRUE,
@@ -248,19 +251,4 @@ ft <- flextable(demo_df) %>%
 
 read_docx() %>%
   body_add_flextable(ft) %>%
-  print(target = "final_demo_table_study.docx")
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
+  print(target = "Tables/Table1_study.docx")

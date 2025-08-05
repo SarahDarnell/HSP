@@ -1,14 +1,14 @@
 #HSP analysis - Part 1 - EH18-128
-#written by Sarah Darnell, began 2.27.25, last edited 4.3.25
+#written by Sarah Darnell, began 2.27.25, last edited 8.5.25
 
 library(readr)
 library(dplyr)
 library(tidyr)
 
-setwd("C:/Users/Eli S/Documents/Sarah work stuff/HSP")
+setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import HSP variables from redcap, remove redcap event names
-eh18 <- read_csv("EH18-128_HSP_redcap_NEW.csv", 
+eh18 <- read_csv("Raw files/EH18-128_HSP_redcap_NEW.csv", 
                  col_types = cols(redcap_event_name = col_skip()))
 
 #copy bmi values across rows, rename 
@@ -43,7 +43,7 @@ eh18_hsp <- filter(eh18_wide, record_number != 4, record_number != 14,
                    record_number != 35)
 
 #import HSP variables from redcap for EH13, remove redcap event names and recID
-eh13 <- read_csv("EH13-094_HSP_redcap_NEW.csv", 
+eh13 <- read_csv("Raw files/EH13-094_HSP_redcap_NEW.csv", 
                   col_types = cols(record_number = col_skip(), 
                                     redcap_event_name = col_skip()))
 
@@ -109,4 +109,4 @@ eh18_hsp_new <- eh18_hsp_new %>%
 eh18_hsp_clean <- as_tibble(eh18_hsp_new)
 
 #saving file
-write_csv(eh18_hsp_clean, "C:/Users/Eli S/Documents/Sarah work stuff/HSP/EH18-128_HSP_cleaned.csv")
+write_csv(eh18_hsp_clean, "Edited files/EH18-128_HSP_cleaned.csv")

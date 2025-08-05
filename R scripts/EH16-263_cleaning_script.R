@@ -1,14 +1,14 @@
 #HSP analysis - Part 3 - EH16-263
-#written by Sarah Darnell, began 3.3.25, last edited 4.3.25
+#written by Sarah Darnell, began 3.3.25, last edited 8.5.25
 
 library(readr)
 library(dplyr)
 library(tidyr)
 
-setwd("C:/Users/Eli S/Documents/Sarah work stuff/HSP")
+setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 
 #import HSP variables from redcap, remove redcap event names
-eh16 <- read_csv("EH16-263_HSP_redcap_NEW.csv", 
+eh16 <- read_csv("Raw files/EH16-263_HSP_redcap_NEW.csv", 
                  col_types = cols(redcap_event_name = col_skip()))
 
 #copy bmi values across rows, rename 
@@ -38,7 +38,7 @@ eh16_wide <- eh16_wide %>%
   ungroup()
 
 #import menses visit information from tracking log
-eh16_menses <- read_csv("EH16_263_MRI_pain_fixed.csv", 
+eh16_menses <- read_csv("Raw files/EH16_263_MRI_pain_fixed.csv", 
                         col_types = cols(...6 = col_skip(), ...7 = col_skip(), 
                                          ...8 = col_skip()))
 
@@ -96,4 +96,4 @@ eh16_hsp_new <- eh16_hsp_new %>%
 eh16_hsp_clean <- as_tibble(eh16_hsp_new)
 
 #saving file
-write_csv(eh16_hsp_clean, "C:/Users/Eli S/Documents/Sarah work stuff/HSP/EH16-263_HSP_cleaned.csv")
+write_csv(eh16_hsp_clean, "Edited files/EH16-263_HSP_cleaned.csv")
