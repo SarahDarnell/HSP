@@ -13,13 +13,57 @@ setwd("C:/Users/Eli S/Documents/Sarah work stuff/2025 Data Projects/HSP")
 #import final merged dataset
 hsp <- read_csv("Edited files/hsp_final.csv")
 
+#create new variable for depression t score
+lookup_table_depression <- data.frame(
+  eddep_total = 8:40,
+  Dep_Tscore = c(
+    37.1, 43.3, 46.2, 48.2, 49.8, 51.2, 52.3, 53.4, 54.3, 55.3,
+    56.2, 57.1, 57.9, 58.8, 59.7, 60.7, 61.6, 62.5, 63.5, 64.4,
+    65.4, 66.4, 67.4, 68.3, 69.3, 70.4, 71.4, 72.5, 73.6, 74.8,
+    76.2, 77.9, 81.1))
+hsp <- hsp %>%
+  left_join(lookup_table_depression, by = "eddep_total")
+
+#create new variable for anxiety t score
+lookup_table_anxiety <- data.frame(
+  total_anxiety_score = 7:35,
+  anxiety_Tscore = c(
+    36.3, 42.1, 44.7, 46.7, 48.4, 49.9, 51.3, 52.6, 53.8,
+    55.1, 56.3, 57.6, 58.8, 60.0, 61.3, 62.6, 63.8, 65.1,
+    66.4, 67.7, 68.9, 70.2, 71.5, 72.9, 74.3, 75.8, 77.4,
+    79.5, 82.7))
+hsp <- hsp %>%
+  left_join(lookup_table_anxiety, by = "total_anxiety_score")
+
+#create new variable for fatigue t score
+lookup_table_fatigue <- data.frame(
+  total_fatigue_score = 7:35,
+  Tscore = c(
+    29.4, 33.4, 36.9, 39.6, 41.9, 43.9, 45.8, 47.6, 49.2,
+    50.8, 52.2, 53.7, 55.1, 56.4, 57.8, 59.2, 60.6, 62.0,
+    63.4, 64.8, 66.3, 67.8, 69.4, 71.1, 72.9, 74.8, 77.1,
+    79.8, 83.2))
+hsp <- hsp %>%
+  left_join(lookup_table_fatigue, by = "total_fatigue_score")
+
+#create new variable for sleep disturbance t score
+lookup_table_sleep <- data.frame(
+  sleep_disturbance_total = 8:40,
+  Tscore = c(
+    28.9, 33.1, 35.9, 38.0, 39.8, 41.4, 42.9, 44.2, 45.5, 
+    46.7, 47.9, 49.0, 50.1, 51.2, 52.2, 53.3, 54.3, 55.3, 
+    56.3, 57.3, 58.3, 59.4, 60.4, 61.5, 62.6, 63.7, 64.9, 
+    66.1,67.5, 69.0, 70.8, 73.0, 76.5))
+hsp <- hsp %>%
+  left_join(lookup_table_sleep, by = "sleep_disturbance_total")
+
 #renaming continuous variables
 hsp <- hsp %>%
-  rename(Depression = 49) %>%
-  rename(Anxiety = 50) %>%
+  rename(Depression = 109) %>%
+  rename(Anxiety = 110) %>%
   rename('Number of Body Pain Sites (0-19)' = 75) %>%
-  rename('Sleep Disturbance' = 48) %>%
-  rename(Fatigue = 47)
+  rename('Sleep Disturbance' = 112) %>%
+  rename(Fatigue = 111)
 
 #Defining continuous variables
 median_vars <- c("Depression", "Anxiety", "Number of Body Pain Sites (0-19)",
