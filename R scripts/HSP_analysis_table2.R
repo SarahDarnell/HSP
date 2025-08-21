@@ -1,5 +1,5 @@
 #HSP analysis - Part 5 - table 2
-#written by Sarah Darnell, began 4.8.25, last edited 8.5.25
+#written by Sarah Darnell, began 4.8.25, last edited 8.21.25
 
 #load necessary packages
 library(dplyr)
@@ -24,8 +24,7 @@ hsp <- hsp %>%
 #Defining continuous variables
 median_vars <- c("Depression", "Anxiety", "Number of Body Pain Sites (0-19)",
                  "Sleep Disturbance",
-                 "Number of pregnancies", 
-                 "Average menstrual pain (last 90 days without pain relievers)",
+                 "Number of pregnancies",
                  "Fatigue")
 
 #Creating table of continuous variables, with median [IQR]

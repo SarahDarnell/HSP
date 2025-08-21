@@ -1,5 +1,5 @@
 #HSP analysis - Part 4 - merged dataset and table 1
-#written by Sarah Darnell, began 3.3.25, last edited 8.5.25
+#written by Sarah Darnell, began 3.3.25, last edited 8.21.25
 
 library(readr)
 library(tableone)
@@ -24,7 +24,7 @@ hsp <- merge(hsp, eh19, all = TRUE)
 hsp <- merge(hsp, chandru, all = TRUE)
 
 #remove na values from fibroid and endo groups
-hsp <- hsp %>% filter(!is.na(grp78))
+hsp <- hsp %>% filter(!is.na(gp96))
 
 #adding variable for study identifier, for group comparisons
 hsp <- hsp %>%

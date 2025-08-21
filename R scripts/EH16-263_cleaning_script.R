@@ -1,5 +1,5 @@
 #HSP analysis - Part 3 - EH16-263
-#written by Sarah Darnell, began 3.3.25, last edited 8.5.25
+#written by Sarah Darnell, began 3.3.25, last edited 8.21.25
 
 library(readr)
 library(dplyr)
@@ -63,30 +63,30 @@ eh16_hsp_new <- eh16_hsp %>%
 
 #adding variable for other race, excluding those with multiple races
 eh16_hsp_new <- eh16_hsp_new %>%
-  mutate(other_race = ifelse((mh3_race___1 == "1") |
-                               (mh3_race___3 == "1") &
-                               (multi_race != 1), 1, 0))
+  mutate(other_race = ifelse(multi_race != 1 & 
+                               (mh3_race___1 == 1|
+                                  mh3_race___3 == 1), 1, 0))
 
 #adding new variable for white race, excluding those with multiple races
 eh16_hsp_new <- eh16_hsp_new %>%
-  mutate(white_race = ifelse((mh3_race___5 == "1") &
+  mutate(white_race = ifelse((mh3_race___5 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for asian race, excluding those with multiple races
 eh16_hsp_new <- eh16_hsp_new %>%
-  mutate(asian_race = ifelse((mh3_race___2 == "1") &
+  mutate(asian_race = ifelse((mh3_race___2 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for black race, excluding those with multiple races
 eh16_hsp_new <- eh16_hsp_new %>%
-  mutate(black_race = ifelse((mh3_race___4 == "1") &
+  mutate(black_race = ifelse((mh3_race___4 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for missing race, excluding those with multiple races
 eh16_hsp_new <- eh16_hsp_new %>%
-  mutate(missing_race = ifelse((mh3_race___1 != "1") & (mh3_race___2 != "1") &
-                                 (mh3_race___3 != "1") & (mh3_race___4 != "1") &
-                                 (mh3_race___5 != "1") & (multi_race != 1), 1, 0))
+  mutate(missing_race = ifelse((mh3_race___1 != 1) & (mh3_race___2 != 1) &
+                                 (mh3_race___3 != 1) & (mh3_race___4 != 1) &
+                                 (mh3_race___5 != 1) & (multi_race != 1), 1, 0))
 
 #adding 1000 to the record_number for merge later
 eh16_hsp_new <- eh16_hsp_new %>%

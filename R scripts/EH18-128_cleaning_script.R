@@ -1,5 +1,5 @@
 #HSP analysis - Part 1 - EH18-128
-#written by Sarah Darnell, began 2.27.25, last edited 8.5.25
+#written by Sarah Darnell, began 2.27.25, last edited 8.21.25
 
 library(readr)
 library(dplyr)
@@ -70,30 +70,31 @@ eh18_hsp_new <- eh18_hsp_new %>%
 
 #adding variable for other race, excluding those with multiple races
 eh18_hsp_new <- eh18_hsp_new %>%
-                mutate(other_race = ifelse((mh3_race___1 == "1") |
-                                           (mh3_race___3 == "1") &
-                                            (multi_race != 1), 1, 0))
+                mutate(other_race = ifelse(multi_race != 1 & 
+                                             (mh3_race___1 == 1|
+                                              mh3_race___3 == 1), 1, 0))
+                                            
 
 #adding new variable for white race, excluding those with multiple races
 eh18_hsp_new <- eh18_hsp_new %>%
-  mutate(white_race = ifelse((mh3_race___5 == "1") &
+  mutate(white_race = ifelse((mh3_race___5 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for asian race, excluding those with multiple races
 eh18_hsp_new <- eh18_hsp_new %>%
-  mutate(asian_race = ifelse((mh3_race___2 == "1") &
+  mutate(asian_race = ifelse((mh3_race___2 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for black race, excluding those with multiple races
 eh18_hsp_new <- eh18_hsp_new %>%
-  mutate(black_race = ifelse((mh3_race___4 == "1") &
+  mutate(black_race = ifelse((mh3_race___4 == 1) &
                                (multi_race != 1), 1, 0))
 
 #adding new variable for missing race, excluding those with multiple races
 eh18_hsp_new <- eh18_hsp_new %>%
-  mutate(missing_race = ifelse((mh3_race___1 != "1") & (mh3_race___2 != "1") &
-                                 (mh3_race___3 != "1") & (mh3_race___4 != "1") &
-                                 (mh3_race___5 != "1") & (multi_race != 1), 1, 0))
+  mutate(missing_race = ifelse((mh3_race___1 != 1) & (mh3_race___2 != 1) &
+                                 (mh3_race___3 != 1) & (mh3_race___4 != 1) &
+                                 (mh3_race___5 != 1) & (multi_race != 1), 1, 0))
 
 #renaming promis variables to match other datasets
 eh18_hsp_new <- eh18_hsp_new %>%
